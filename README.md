@@ -453,8 +453,8 @@ This project is licensed under the MIT License.
 ## 📞 Contact
 
 For questions or support, please contact:
-- Email: support@cocoasense.com
-- Website: https://cocoasense.com
+- Email: nagarasatria104@gmail.com
+- No Telp : 082116927632
 
 ---
 
