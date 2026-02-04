@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiAIService {
-  static const String _apiKey = 'AIzaSyBZHL1u9-9PBNAh2JU3iS6ybdBYANd5xwE';
+  static const String _apiKey = 'AIzaSyCHbHL3BoHB6AOGWtkTWQo2vr15tzDU3SU';
 
   late final GenerativeModel _model;
 
@@ -83,10 +83,7 @@ Analisis berdasarkan:
 ''';
 
       final content = [
-        Content.multi([
-          TextPart(prompt),
-          DataPart(mimeType, imageBytes),
-        ]),
+        Content.multi([TextPart(prompt), DataPart(mimeType, imageBytes)]),
       ];
 
       // ===============================
@@ -174,8 +171,9 @@ Analisis berdasarkan:
     result.putIfAbsent('quality', () => '-');
     result.putIfAbsent('recommendations', () => []);
 
-    result['confidence'] =
-        (result['confidence'] as num).clamp(0, 100).toDouble();
+    result['confidence'] = (result['confidence'] as num)
+        .clamp(0, 100)
+        .toDouble();
 
     if (result['recommendations'] is! List) {
       result['recommendations'] = [];
