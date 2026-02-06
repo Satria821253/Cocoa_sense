@@ -24,7 +24,7 @@ class _CameraScanScreenState extends State<CameraScanScreen>
       Get.lazyPut(() => cam_ctrl.CameraController(), tag: 'camera');
     }
     controller = Get.find<cam_ctrl.CameraController>(tag: 'camera');
-    
+
     _animationController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -56,7 +56,7 @@ class _CameraScanScreenState extends State<CameraScanScreen>
         children: [
           // Camera Preview
           Obx(() {
-            if (!controller.isCameraInitialized.value || 
+            if (!controller.isCameraInitialized.value ||
                 controller.cameraController == null) {
               return Container(
                 width: double.infinity,
@@ -67,7 +67,7 @@ class _CameraScanScreenState extends State<CameraScanScreen>
                 ),
               );
             }
-            
+
             return SizedBox(
               width: double.infinity,
               height: double.infinity,
@@ -181,16 +181,14 @@ class _CameraScanScreenState extends State<CameraScanScreen>
 
                     // Capture Button
                     GestureDetector(
-                      onTap: controller.capturePhoto,
+                      onTap: () =>
+                          controller.capturePhoto(context, scanAreaSize),
                       child: Container(
                         width: 70,
                         height: 70,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 4,
-                          ),
+                          border: Border.all(color: Colors.white, width: 4),
                         ),
                         child: Center(
                           child: Container(
@@ -206,12 +204,14 @@ class _CameraScanScreenState extends State<CameraScanScreen>
                     ),
 
                     // Flash Button
-                    Obx(() => _BottomControlButton(
-                      icon: controller.isFlashOn.value 
-                          ? Icons.flash_on 
-                          : Icons.flash_off,
-                      onTap: controller.toggleFlash,
-                    )),
+                    Obx(
+                      () => _BottomControlButton(
+                        icon: controller.isFlashOn.value
+                            ? Icons.flash_on
+                            : Icons.flash_off,
+                        onTap: controller.toggleFlash,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -302,12 +302,21 @@ class ScannerOverlayPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(
-            scanAreaLeft + scanAreaSize - borderRadius, scanAreaTop + scanAreaSize)
+          scanAreaLeft + scanAreaSize - borderRadius,
+          scanAreaTop + scanAreaSize,
+        )
         ..lineTo(
-            scanAreaLeft + scanAreaSize - cornerLength, scanAreaTop + scanAreaSize)
-        ..moveTo(scanAreaLeft + scanAreaSize, scanAreaTop + scanAreaSize - borderRadius)
+          scanAreaLeft + scanAreaSize - cornerLength,
+          scanAreaTop + scanAreaSize,
+        )
+        ..moveTo(
+          scanAreaLeft + scanAreaSize,
+          scanAreaTop + scanAreaSize - borderRadius,
+        )
         ..lineTo(
-            scanAreaLeft + scanAreaSize, scanAreaTop + scanAreaSize - cornerLength),
+          scanAreaLeft + scanAreaSize,
+          scanAreaTop + scanAreaSize - cornerLength,
+        ),
       borderPaint,
     );
   }
@@ -321,10 +330,7 @@ class ScanningLinePainter extends CustomPainter {
   final double progress;
   final double scanAreaSize;
 
-  ScanningLinePainter({
-    required this.progress,
-    required this.scanAreaSize,
-  });
+  ScanningLinePainter({required this.progress, required this.scanAreaSize});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -340,11 +346,7 @@ class ScanningLinePainter extends CustomPainter {
 
     final y = progress * (scanAreaSize - 40) + 20;
 
-    canvas.drawLine(
-      Offset(20, y),
-      Offset(scanAreaSize - 20, y),
-      paint,
-    );
+    canvas.drawLine(Offset(20, y), Offset(scanAreaSize - 20, y), paint);
   }
 
   @override
@@ -357,10 +359,7 @@ class _BottomControlButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _BottomControlButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _BottomControlButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -374,16 +373,9 @@ class _BottomControlButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.5),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.2),
-              width: 1,
-            ),
+            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 28,
-          ),
+          child: Icon(icon, color: Colors.white, size: 28),
         ),
       ),
     );

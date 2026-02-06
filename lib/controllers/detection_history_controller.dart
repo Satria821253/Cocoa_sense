@@ -4,10 +4,10 @@ import 'package:cocoa_sense/services/detection_history_service.dart';
 
 class DetectionHistoryController extends GetxController {
   final _historyService = DetectionHistoryService();
-  
+
   final history = <DetectionResult>[].obs;
   final isLoading = false.obs;
-  
+
   @override
   void onInit() {
     super.onInit();
@@ -24,12 +24,20 @@ class DetectionHistoryController extends GetxController {
     }
   }
 
-  DetectionResult? get latestDetection => 
+  DetectionResult? get latestDetection =>
       history.isNotEmpty ? history.first : null;
 
   Future<void> saveDetection(DetectionResult result) async {
-    await _historyService.saveDetection(result);
-    await loadHistory();
+    try {
+      await _historyService.saveDetection(result);
+      await loadHistory();
+
+      print('SAVE DETECTION DIPANGGIL');
+      print(result.toJson());
+      print('JUMLAH RIWAYAT: ${history.length}');
+    } catch (e) {
+      print('ERROR SAVE DETECTION: $e');
+    }
   }
 
   Future<void> deleteDetection(String id) async {
