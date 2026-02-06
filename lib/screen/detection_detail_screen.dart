@@ -12,6 +12,7 @@ class DetectionDetailScreen extends StatelessWidget {
     final DetectionResult item = Get.arguments as DetectionResult;
     final bool isHealthy = item.status == 'Sehat';
     final bool isError = item.status == 'Error';
+    final bool isNotCocoa = item.status == 'Bukan Kakao';
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
@@ -35,61 +36,22 @@ class DetectionDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             // Image Preview
-            Stack(
-              children: [
-                ClipPath(
-                  clipper: BotomWaveClipper(),
-                  child: Container(
-                    width: double.infinity,
-                    height: 300,
-                    color: Colors.black,
-                    child: Image.file(
-                      File(item.imagePath),
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        color: Colors.grey.shade300,
-                        child: const Center(
-                          child: Icon(Icons.image_not_supported, size: 80),
-                        ),
-                      ),
-                    ),
+            Container(
+              width: double.infinity,
+              height: 300,
+              color: Colors.black,
+              child: Image.file(
+                File(item.imagePath),
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Container(
+                  color: Colors.grey.shade300,
+                  child: const Center(
+                    child: Icon(Icons.image_not_supported, size: 80),
                   ),
                 ),
-
-                //Gradient soft fade
-                // Positioned(
-                //   bottom: 0,
-                //   left: 0,
-                //   right: 0,
-                //   child: Container(
-                //     height: 60,
-                //     decoration: const BoxDecoration(
-                //       gradient: LinearGradient(
-                //         begin: Alignment.topCenter,
-                //         end: Alignment.bottomCenter,
-                //         colors: [Colors.transparent, Color(0xFFF5F5F5)],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ],
+              ),
             ),
 
-            // Container(
-            //   width: double.infinity,
-            //   height: 300,
-            //   color: Colors.black,
-            //   child: Image.file(
-            //     File(item.imagePath),
-            //     fit: BoxFit.contain,
-            //     errorBuilder: (_, __, ___) => Container(
-            //       color: Colors.grey.shade300,
-            //       child: const Center(
-            //         child: Icon(Icons.image_not_supported, size: 80),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             const SizedBox(height: 16),
 
             // Status Card
@@ -161,21 +123,10 @@ class DetectionDetailScreen extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Details Card
-            if (!isError) ...[
-              _buildDetailCard('Informasi Detail', [
-                _DetailRow('Penyakit', item.disease ?? 'Tidak terdeteksi'),
-                _DetailRow('Kematangan', item.ripeness),
-                _DetailRow('Kualitas', item.quality),
-                _DetailRow('ID Deteksi', item.id),
-              ]),
+            // ================= CONTENT =================
 
-              const SizedBox(height: 16),
-
-              // Recommendations Card
-              _buildRecommendationCard(item.recommendations),
-            ] else ...[
-              // Error message
+            // 1. ERROR
+            if (isError) ...[
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Container(
@@ -201,6 +152,46 @@ class DetectionDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ]
+            // 2. BUKAN KAKAO
+            else if (isNotCocoa) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.orange),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.info_outline, color: Colors.orange),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Objek terdeteksi bukan buah kakao. Informasi detail dan rekomendasi tidak tersedia.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.orange.shade900,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ]
+            // 3. NORMAL (KAKAO)
+            else ...[
+              _buildDetailCard('Informasi Detail', [
+                _DetailRow('Penyakit', item.disease ?? 'Tidak terdeteksi'),
+                _DetailRow('Kematangan', item.ripeness),
+                _DetailRow('Kualitas', item.quality),
+                _DetailRow('ID Deteksi', item.id),
+              ]),
+              const SizedBox(height: 16),
+              _buildRecommendationCard(item.recommendations),
             ],
 
             const SizedBox(height: 16),

@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiAIService {
-  static const String _apiKey = 'AIzaSyCHbHL3BoHB6AOGWtkTWQo2vr15tzDU3SU';
+  static const String _apiKey = 'AIzaSyANwWMI8kashkndsA4pGz_5H1sCIlYyO0s';
 
   late final GenerativeModel _model;
 
@@ -55,24 +55,35 @@ class GeminiAIService {
       // PROMPT (STRICT JSON)
       // ===============================
       final prompt = '''
-Kamu adalah sistem AI analisis buah kakao berbasis visual.
+Kamu adalah sistem AI vision untuk analisis buah kakao.
 
-ATURAN WAJIB:
-- Output HARUS JSON VALID
+TUGAS UTAMA:
+1. Tentukan apakah objek pada gambar adalah BUAH KAKAO.
+2. JIKA BUKAN BUAH KAKAO:
+   - is_cocoa = false
+   - status, ripeness, quality, disease = null
+   - confidence = 0
+   - recommendations berisi pesan bahwa objek bukan buah kakao
+3. JIKA BUAH KAKAO:
+   - lakukan analisis penyakit, kematangan, dan kualitas
+
+ATURAN OUTPUT:
+- HARUS JSON VALID
 - TANPA markdown
-- TANPA penjelasan
 - TANPA teks tambahan
 - TANPA emoji
 
 FORMAT WAJIB:
 
 {
-  "status": "Sehat" | "Sakit",
+  "is_cocoa": true | false,
+  "object_detected": "buah kakao" | "bukan buah kakao" | "tidak jelas",
+  "status": "Sehat" | "Sakit" | null,
   "confidence": 0-100,
   "disease": string | null,
-  "ripeness": "Mentah" | "Setengah Matang" | "Matang",
-  "quality": "Premium" | "Grade A" | "Grade B" | "Perlu Perhatian",
-  "recommendations": ["...", "...", "..."]
+  "ripeness": "Mentah" | "Setengah Matang" | "Matang" | null,
+  "quality": "Premium" | "Grade A" | "Grade B" | "Perlu Perhatian" null,
+  "recommendations": []
 }
 
 Analisis berdasarkan:
@@ -163,23 +174,92 @@ Analisis berdasarkan:
         .trim();
   }
 
+  double _safeConfidence(dynamic value) {
+    if (value is num) {
+      return value.clamp(0, 100).toDouble();
+    }
+    return 0.0;
+  }
+
+  String? _safeNullableString(dynamic value) {
+    if (value is String && value.trim().isNotEmpty) {
+      return value;
+    }
+    return null;
+  }
+
+  String? _safeEnum(
+    dynamic value, {
+    required List<String> allowed,
+    String? fallback,
+  }) {
+    if (value is String && allowed.contains(value)) {
+      return value;
+    }
+    return fallback;
+  }
+
+  List<String> _safeList(dynamic value, {List<String>? fallback}) {
+    if (value is List) {
+      return value.map((e) => e.toString()).toList();
+    }
+    return fallback ?? [];
+  }
+
   Map<String, dynamic> _sanitizeResult(Map<String, dynamic> result) {
-    result.putIfAbsent('status', () => 'Tidak Diketahui');
-    result.putIfAbsent('confidence', () => 0);
-    result.putIfAbsent('disease', () => null);
-    result.putIfAbsent('ripeness', () => '-');
-    result.putIfAbsent('quality', () => '-');
-    result.putIfAbsent('recommendations', () => []);
+    // ===============================
+    // VALIDATE CORE FLAG
+    // ===============================
+    final bool isCocoa = result['is_cocoa'] == true;
 
-    result['confidence'] = (result['confidence'] as num)
-        .clamp(0, 100)
-        .toDouble();
-
-    if (result['recommendations'] is! List) {
-      result['recommendations'] = [];
+    // ===============================
+    // NON-COCOA OBJECT
+    // ===============================
+    if (!isCocoa) {
+      return {
+        'is_cocoa': false,
+        'object_detected': result['object_detected'] ?? 'bukan buah kakao',
+        'status': null,
+        'confidence': 0.0,
+        'disease': null,
+        'ripeness': null,
+        'quality': null,
+        'recommendations': _safeList(
+          result['recommendations'],
+          fallback: [
+            'Objek pada gambar bukan buah kakao',
+            'Silakan unggah foto buah kakao yang terlihat jelas',
+            'Pastikan buah kakao terlihat utuh dan fokus',
+          ],
+        ),
+      };
     }
 
-    return result;
+    // ===============================
+    // COCOA OBJECT
+    // ===============================
+    return {
+      'is_cocoa': true,
+      'object_detected': result['object_detected'] ?? 'buah kakao',
+      'status': _safeEnum(
+        result['status'],
+        allowed: ['Sehat', 'Sakit'],
+        fallback: 'Tidak Diketahui',
+      ),
+      'confidence': _safeConfidence(result['confidence']),
+      'disease': _safeNullableString(result['disease']),
+      'ripeness': _safeEnum(
+        result['ripeness'],
+        allowed: ['Mentah', 'Setengah Matang', 'Matang'],
+        fallback: null,
+      ),
+      'quality': _safeEnum(
+        result['quality'],
+        allowed: ['Premium', 'Grade A', 'Grade B', 'Perlu Perhatian'],
+        fallback: null,
+      ),
+      'recommendations': _safeList(result['recommendations']),
+    };
   }
 
   Map<String, dynamic> _errorResponse(String message) {
