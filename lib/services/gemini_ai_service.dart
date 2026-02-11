@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiAIService {
-  static const String _apiKey = 'AIzaSyCiUR21lxaBfRltVfgJM-hLefUWuMs2NfQ';
+  static const String _apiKey = 'AIzaSyBRQ78ocnej5EmsV0oAiG2rC2zfAKtm_BM';
 
   late final GenerativeModel _model;
 
@@ -55,42 +55,36 @@ class GeminiAIService {
       // PROMPT (STRICT JSON)
       // ===============================
       final prompt = '''
-Kamu adalah sistem AI vision untuk analisis buah kakao.
+Kamu adalah sistem AI vision untuk analisis KESEHATAN buah kakao.
 
 TUGAS UTAMA:
-1. Tentukan apakah objek pada gambar adalah BUAH KAKAO.
-2. JIKA BUKAN BUAH KAKAO:
-   - is_cocoa = false
-   - status, ripeness, quality, disease = null
-   - confidence = 0
-   - recommendations berisi pesan bahwa objek bukan buah kakao
-3. JIKA BUAH KAKAO:
-   - lakukan analisis penyakit, kematangan, dan kualitas
+1. Analisis KESEHATAN buah kakao pada gambar.
+2. Klasifikasikan kondisi kesehatan: Sehat, Sakit, atau Penyakit Tertentu.
+3. Berikan skor keyakinan (confidence).
+
+LARANGAN KERAS (CRITICAL):
+- JANGAN PERNAH menghitung jumlah buah atau pohon.
+- JANGAN memberikan estimasi hasil panen.
+- JANGAN memberikan saran pertanian di luar konteks kesehatan buah.
 
 ATURAN OUTPUT:
 - HARUS JSON VALID
 - TANPA markdown
 - TANPA teks tambahan
-- TANPA emoji
 
 FORMAT WAJIB:
-
 {
   "is_cocoa": true | false,
-  "object_detected": "buah kakao" | "bukan buah kakao" | "tidak jelas",
+  "object_detected": "buah kakao" | "bukan buah kakao",
   "status": "Sehat" | "Sakit" | null,
   "confidence": 0-100,
-  "disease": string | null,
+  "disease": "Nama Penyakit (jika sakit)" | null,
   "ripeness": "Mentah" | "Setengah Matang" | "Matang" | null,
-  "quality": "Premium" | "Grade A" | "Grade B" | "Perlu Perhatian" null,
-  "recommendations": []
+  "quality": "Premium" | "Grade A" | "Grade B" | "Perlu Perhatian" | null,
+  "recommendations": ["Saran 1", "Saran 2"]
 }
 
-Analisis berdasarkan:
-- Warna kulit buah
-- Kondisi permukaan
-- Tanda penyakit atau hama
-- Tingkat kematangan
+Analisis berdasarkan visual semata. Fokus pada akurasi identifikasi penyakit.
 ''';
 
       final content = [

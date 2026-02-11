@@ -69,95 +69,99 @@ class MonitoringScreen extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Content
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-            // Status Card
-            _buildStatusCard(controller),
-            
-            const SizedBox(height: 24),
-            
-            // Sensor Status List
-            const SectionHeader(
-              title: 'Status Sensor',
-              subtitle: '12 sensor aktif',
-            ),
-            
-            const SizedBox(height: 12),
-            
-            Obx(() => SensorStatusCard(
-              sensorName: 'Sensor pH Tanah A1',
-              location: 'Blok Jonggol - Area A',
-              status: 'Normal',
-              value: controller.phValue.value.toStringAsFixed(1),
-              isActive: true,
-            )),
-            
-            const SizedBox(height: 12),
-            
-            Obx(() => SensorStatusCard(
-              sensorName: 'Sensor Cahaya B2',
-              location: 'Blok Jonggol - Area B',
-              status: 'Normal',
-              value: '${controller.sensorCount.value} lux',
-              isActive: true,
-            )),
-            
-            const SizedBox(height: 12),
-            
-            const SensorStatusCard(
-              sensorName: 'Sensor Kelembaban C3',
-              location: 'Blok Jonggol - Area C',
-              status: 'Normal',
-              value: '68%',
-              isActive: true,
-            ),
-            
-            const SizedBox(height: 24),
-            
-            // Quick Actions
-            const SectionHeader(
-              title: 'Aksi Cepat',
-              subtitle: 'Kelola monitoring',
-            ),
-            
-            const SizedBox(height: 12),
-            
-            Row(
-              children: [
-                Expanded(
-                  child: ActionButton(
-                    icon: Icons.refresh,
-                    label: 'Refresh Data',
-                    onTap: controller.refreshData,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ActionButton(
-                    icon: Icons.download_outlined,
-                    label: 'Export Data',
-                    onTap: controller.exportData,
-                  ),
-                ),
-              ],
-            ),
-            
-            const SizedBox(height: 12),
-            
-            SizedBox(
-              width: double.infinity,
-              child: ActionButton(
-                icon: Icons.analytics_outlined,
-                label: 'Lihat Grafik Detail',
-                onTap: controller.viewDetailedAnalytics,
-                isPrimary: true,
-              ),
-            ),
+                    // Status Card
+                    _buildStatusCard(controller),
+
+                    const SizedBox(height: 24),
+
+                    // Sensor Status List
+                    const SectionHeader(
+                      title: 'Status Sensor',
+                      subtitle: '12 sensor aktif',
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Obx(
+                      () => SensorStatusCard(
+                        sensorName: 'Sensor pH Tanah A1',
+                        location: 'Blok Jonggol - Area A',
+                        status: 'Normal',
+                        value: controller.phValue.value.toStringAsFixed(1),
+                        isActive: true,
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Obx(
+                      () => SensorStatusCard(
+                        sensorName: 'Sensor Cahaya B2',
+                        location: 'Blok Jonggol - Area B',
+                        status: 'Normal',
+                        value: '${controller.sensorCount.value} lux',
+                        isActive: true,
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    const SensorStatusCard(
+                      sensorName: 'Sensor Kelembaban C3',
+                      location: 'Blok Jonggol - Area C',
+                      status: 'Normal',
+                      value: '68%',
+                      isActive: true,
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Quick Actions
+                    const SectionHeader(
+                      title: 'Aksi Cepat',
+                      subtitle: 'Kelola monitoring',
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ActionButton(
+                            icon: Icons.refresh,
+                            label: 'Refresh Data',
+                            onTap: controller.refreshData,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ActionButton(
+                            icon: Icons.download_outlined,
+                            label: 'Export Data',
+                            onTap: controller.exportData,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ActionButton(
+                        icon: Icons.analytics_outlined,
+                        label: 'Lihat Grafik Detail',
+                        onTap: controller.viewDetailedAnalytics,
+                        isPrimary: true,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -208,9 +212,9 @@ class MonitoringScreen extends StatelessWidget {
             },
             onEnd: () {},
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           const Text(
             'Sistem Monitoring Aktif',
             style: TextStyle(
@@ -219,9 +223,9 @@ class MonitoringScreen extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           Text(
             'Terhubung ke 12 sensor di blok kebun Jonggol. Semua sistem berjalan normal.',
             textAlign: TextAlign.center,
@@ -231,33 +235,35 @@ class MonitoringScreen extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          
+
           const SizedBox(height: 32),
-          
+
           // Metrics Row
-          Obx(() => Row(
-            children: [
-              Expanded(
-                child: MetricCard(
-                  label: 'PH TANAH',
-                  value: controller.phValue.value.toStringAsFixed(1),
-                  unit: 'Ideal',
-                  color: Colors.blue,
-                  trend: 'stable',
+          Obx(
+            () => Row(
+              children: [
+                Expanded(
+                  child: MetricCard(
+                    label: 'PH TANAH',
+                    value: controller.phValue.value.toStringAsFixed(1),
+                    unit: 'Ideal',
+                    color: Colors.blue,
+                    trend: 'stable',
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: MetricCard(
-                  label: 'INTENSITAS CAHAYA',
-                  value: controller.sensorCount.value.toString(),
-                  unit: 'lux',
-                  color: Colors.orange,
-                  trend: 'up',
+                const SizedBox(width: 16),
+                Expanded(
+                  child: MetricCard(
+                    label: 'INTENSITAS CAHAYA',
+                    value: controller.sensorCount.value.toString(),
+                    unit: 'lux',
+                    color: Colors.orange,
+                    trend: 'up',
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            ),
+          ),
         ],
       ),
     );

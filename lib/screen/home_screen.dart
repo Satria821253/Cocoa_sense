@@ -2,15 +2,21 @@ import 'package:cocoa_sense/screen/widget/card/feature_card.dart';
 import 'package:cocoa_sense/screen/widget/card/info_card.dart';
 import 'package:cocoa_sense/screen/widget/card/sensor_realtime_card.dart';
 import 'package:cocoa_sense/screen/widget/card/recent_detection_card.dart';
+import 'package:cocoa_sense/screen/widget/card/scan_progress_card.dart';
 import 'package:cocoa_sense/screen/widget/garden_status.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:cocoa_sense/controllers/monitoring_controller.dart';
+import 'package:cocoa_sense/screen/widget/dialogs/input_data_farm_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Ensure controller is available (it should be init in main or lazily here)
+    final controller = Get.put(MonitoringController(), permanent: true);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -72,31 +78,70 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Garden Status Card
-                const GardenStatusCard(
-                  gardenName: 'Kebun Jonggol Blok C',
-                  pohon: 1240,
-                  buah: '~8.5k',
-                  kesehatan: '98%',
+                // Garden Status Card (Connected to Real Data)
+                GestureDetector(
+                  onTap: () => FarmDataDialog.show(context, controller),
+                  child: Stack(
+                    children: [
+                      Obx(
+                        () => GardenStatusCard(
+                          gardenName: 'Kebun Jonggol Blok C',
+                          pohon: controller.totalTrees.value > 0
+                              ? controller.totalTrees.value
+                              : 0,
+                          buah: controller.totalEstimatedFruits.value > 0
+                              ? '~${controller.totalEstimatedFruits.value}'
+                              : 'Set Data',
+                          kesehatan:
+                              '${controller.healthPercentage.toStringAsFixed(1)}%',
+                        ),
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 24),
 
-                // Info Cards Row
-                const Row(
+                // Scan Progress Card
+                const ScanProgressCard(),
+                const SizedBox(height: 24),
+
+                // Info Cards Row (Harvest Potential & Category)
+                Row(
                   children: [
                     Expanded(
-                      child: InfoCard(
-                        label: 'CAPAIAN PANEN',
-                        value: '420',
-                        unit: 'Kg/Bln',
+                      child: Obx(
+                        () => InfoCard(
+                          label: 'POTENSI PANEN',
+                          value: controller.harvestPotentialIndex
+                              .toStringAsFixed(1),
+                          unit: '%',
+                        ),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Expanded(
-                      child: InfoCard(
-                        label: 'HOK TERPAKAI',
-                        value: '12',
-                        unit: 'Hari',
+                      child: Obx(
+                        () => InfoCard(
+                          label: 'KATEGORI',
+                          value: controller.harvestPotentialCategory,
+                          unit: '',
+                        ),
                       ),
                     ),
                   ],
@@ -139,7 +184,17 @@ class HomeScreen extends StatelessWidget {
                   currentValue: 28.4,
                   unit: '°C',
                   icon: Icons.thermostat,
-                  chartData: const [27.5, 27.8, 28.0, 28.2, 28.5, 28.3, 28.4, 28.6, 28.4],
+                  chartData: const [
+                    27.5,
+                    27.8,
+                    28.0,
+                    28.2,
+                    28.5,
+                    28.3,
+                    28.4,
+                    28.6,
+                    28.4,
+                  ],
                 ),
                 const SizedBox(height: 20),
 

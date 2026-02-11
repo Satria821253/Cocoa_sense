@@ -27,6 +27,8 @@ class DetectionResult {
 
   Map<String, dynamic> toJson() => {
     'id': id,
+    'isCocoa': isCocoa,
+    'objectDetected': objectDetected,
     'imagePath': imagePath,
     'status': status,
     'confidence': confidence,

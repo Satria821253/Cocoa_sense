@@ -27,6 +27,20 @@ class DetectionHistoryController extends GetxController {
   DetectionResult? get latestDetection =>
       history.isNotEmpty ? history.first : null;
 
+  int get totalAnalyzedFruits => history.where((e) => e.isCocoa).length;
+  int get totalHealthyFruits =>
+      history.where((e) => e.isCocoa && e.status == 'Sehat').length;
+  int get totalUnhealthyFruits =>
+      history.where((e) => e.isCocoa && e.status == 'Sakit').length;
+
+  // Ripeness Analytics
+  int get totalRipeFruits =>
+      history.where((e) => e.isCocoa && e.ripeness == 'Matang').length;
+  int get totalSemiRipeFruits =>
+      history.where((e) => e.isCocoa && e.ripeness == 'Setengah Matang').length;
+  int get totalUnripeFruits =>
+      history.where((e) => e.isCocoa && e.ripeness == 'Mentah').length;
+
   Future<void> saveDetection(DetectionResult result) async {
     try {
       await _historyService.saveDetection(result);

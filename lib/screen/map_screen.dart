@@ -17,31 +17,35 @@ class MapScreen extends StatelessWidget {
         child: Stack(
           children: [
             // Google Maps
-            Obx(() => controller.isLoading.value
-                ? const Center(child: CircularProgressIndicator())
-                : GoogleMap(
-                    onMapCreated: controller.onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: controller.currentPosition.value != null
-                          ? LatLng(controller.currentPosition.value!.latitude,
-                              controller.currentPosition.value!.longitude)
-                          : MapController.defaultLocation,
-                      zoom: controller.currentZoom.value,
-                      bearing: controller.currentBearing.value,
+            Obx(
+              () => controller.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : GoogleMap(
+                      onMapCreated: controller.onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: controller.currentPosition.value != null
+                            ? LatLng(
+                                controller.currentPosition.value!.latitude,
+                                controller.currentPosition.value!.longitude,
+                              )
+                            : MapController.defaultLocation,
+                        zoom: controller.currentZoom.value,
+                        bearing: controller.currentBearing.value,
+                      ),
+                      markers: controller.markers,
+                      circles: controller.circles,
+                      myLocationEnabled: false,
+                      myLocationButtonEnabled: false,
+                      compassEnabled: false,
+                      mapType: controller.currentMapType.value,
+                      zoomControlsEnabled: false,
+                      rotateGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
+                      tiltGesturesEnabled: true,
+                      zoomGesturesEnabled: true,
+                      onCameraMove: controller.onCameraMove,
                     ),
-                    markers: controller.markers,
-                    circles: controller.circles,
-                    myLocationEnabled: false,
-                    myLocationButtonEnabled: false,
-                    compassEnabled: false,
-                    mapType: controller.currentMapType.value,
-                    zoomControlsEnabled: false,
-                    rotateGesturesEnabled: true,
-                    scrollGesturesEnabled: true,
-                    tiltGesturesEnabled: true,
-                    zoomGesturesEnabled: true,
-                    onCameraMove: controller.onCameraMove,
-                  )),
+            ),
 
             // Header
             buildHeader(),

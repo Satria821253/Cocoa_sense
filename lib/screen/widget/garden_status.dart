@@ -48,23 +48,6 @@ class GardenStatusCard extends StatelessWidget {
                   letterSpacing: 1.2,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      color: Colors.white,
-                      size: 14,
-                    ),
-                    SizedBox(width: 4),
-                  ],
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 12),

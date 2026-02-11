@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
 import 'package:cocoa_sense/controllers/camera_controller.dart' as cam_ctrl;
+import 'package:cocoa_sense/controllers/monitoring_controller.dart';
 
 class CameraScanScreen extends StatefulWidget {
   const CameraScanScreen({super.key});
@@ -181,8 +182,22 @@ class _CameraScanScreenState extends State<CameraScanScreen>
 
                     // Capture Button
                     GestureDetector(
-                      onTap: () =>
-                          controller.capturePhoto(context, scanAreaSize),
+                      onTap: () {
+                        // Check validation
+                        final monitoring = Get.put(MonitoringController(), permanent: true);
+                        if (!monitoring.canAnalyze) {
+                          Get.snackbar(
+                            'Data Belum Lengkap',
+                            'Harap input jumlah pohon dan estimasi buah di menu Monitoring sebelum melakukan scan.',
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.BOTTOM,
+                            margin: const EdgeInsets.all(20),
+                          );
+                          return;
+                        }
+                        controller.capturePhoto(context, scanAreaSize);
+                      },
                       child: Container(
                         width: 70,
                         height: 70,
