@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cocoa_sense/controllers/monitoring_controller.dart';
-import 'package:cocoa_sense/screen/widget/monitoring_widgets.dart';
+import 'package:cocoa_sense/widget/monitoring_widgets.dart';
 
 class MonitoringScreen extends StatelessWidget {
   const MonitoringScreen({super.key});

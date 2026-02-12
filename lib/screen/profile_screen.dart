@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:cocoa_sense/controllers/main_controller.dart';
-import 'package:cocoa_sense/screen/widget/profile_header_widget.dart';
-import 'package:cocoa_sense/screen/widget/profile_menu_list.dart';
-import 'package:cocoa_sense/screen/widget/profile_stats.dart';
+import 'package:cocoa_sense/widget/profile_header_widget.dart';
+import 'package:cocoa_sense/widget/profile_menu_list.dart';
+import 'package:cocoa_sense/widget/profile_stats.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

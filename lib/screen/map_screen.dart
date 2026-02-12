@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:cocoa_sense/controllers/map_controller.dart';
-import 'package:cocoa_sense/screen/widget/map_screen_helpers.dart';
+import 'package:cocoa_sense/widget/map_screen_helpers.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});

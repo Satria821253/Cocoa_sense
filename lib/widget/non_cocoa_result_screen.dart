@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../widget/card/recommendation_card.dart';
+import 'card/recommendation_card.dart';
 
 class NonCocoaResultScreen extends StatelessWidget {
   final String imagePath;

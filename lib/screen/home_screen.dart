@@ -1,13 +1,14 @@
-import 'package:cocoa_sense/screen/widget/card/feature_card.dart';
-import 'package:cocoa_sense/screen/widget/card/info_card.dart';
-import 'package:cocoa_sense/screen/widget/card/sensor_realtime_card.dart';
-import 'package:cocoa_sense/screen/widget/card/recent_detection_card.dart';
-import 'package:cocoa_sense/screen/widget/card/scan_progress_card.dart';
-import 'package:cocoa_sense/screen/widget/garden_status.dart';
+import 'package:cocoa_sense/widget/card/feature_card.dart';
+import 'package:cocoa_sense/widget/card/info_card.dart';
+import 'package:cocoa_sense/widget/card/sensor_realtime_card.dart';
+import 'package:cocoa_sense/widget/card/recent_detection_card.dart';
+import 'package:cocoa_sense/widget/card/scan_progress_card.dart';
+import 'package:cocoa_sense/widget/garden_status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cocoa_sense/controllers/monitoring_controller.dart';
-import 'package:cocoa_sense/screen/widget/dialogs/input_data_farm_dialog.dart';
+import 'package:cocoa_sense/widget/dialogs/input_data_farm_dialog.dart';
+import 'package:cocoa_sense/screen/detection_history_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -199,32 +200,62 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Recent Detection Section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.history,
-                          size: 20,
-                          color: Color(0xFF2D7A4F),
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'DETEKSI TERKINI',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
-                            color: Colors.black87,
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: const [
+                              Icon(
+                                Icons.history,
+                                size: 20,
+                                color: Color(0xFF2D7A4F),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'DETEKSI TERKINI',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => const DetectionHistoryScreen());
+                            },
+                            child: const Text(
+                              'Lihat Semua',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2D7A4F),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Recent Detection Card
+                      const RecentDetectionCard(),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 12),
-                const RecentDetectionCard(),
                 const SizedBox(height: 20),
               ],
             ),

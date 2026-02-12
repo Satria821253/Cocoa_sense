@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controllers/monitoring_controller.dart';
+import '../../controllers/monitoring_controller.dart';
 
 class FarmDataDialog {
   static void show(BuildContext context, MonitoringController controller) {
@@ -28,15 +28,15 @@ class FarmDataDialog {
               color: const Color(0xFFF2F4F3),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  offset: const Offset(3, 3),
-                  blurRadius: 6,
+                  color: Colors.black.withOpacity(0.05),
+                  offset: const Offset(4, 4),
+                  blurRadius: 8,
                 ),
-                const BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-1, -1),
-                  blurRadius: 4,
-                ),
+                // BoxShadow(
+                //   color: Colors.white.withOpacity(0.06),
+                //   offset: Offset(-1, -1),
+                //   blurRadius: 3,
+                // ),
               ],
             ),
             child: Column(
@@ -117,15 +117,15 @@ class FarmDataDialog {
             color: const Color(0xFFF2F4F3),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                offset: const Offset(3, 3),
-                blurRadius: 6,
+                color: Colors.black.withOpacity(0.05),
+                offset: const Offset(4, 4),
+                blurRadius: 8,
               ),
-              const BoxShadow(
-                color: Colors.white,
-                offset: Offset(-1, -1),
-                blurRadius: 4,
-              ),
+              // BoxShadow(
+              //   color: Colors.white,
+              //   offset: Offset(0, 0),
+              //   blurRadius: 3,
+              // ),
             ],
           ),
           child: Column(
@@ -213,11 +213,11 @@ class FarmDataDialog {
                 blurRadius: 8,
               ),
               // Shadow terang atas kiri
-              BoxShadow(
-                color: Colors.white.withOpacity(0.06),
-                offset: Offset(-1, -1),
-                blurRadius: 3,
-              ),
+              // BoxShadow(
+              //   color: Colors.white.withOpacity(0.06),
+              //   offset: Offset(-1, -1),
+              //   blurRadius: 3,
+              // ),
             ],
           ),
           child: Column(
@@ -292,15 +292,15 @@ class FarmDataDialog {
         color: const Color(0xFFF2F4F3),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withOpacity(0.05),
             offset: const Offset(4, 4),
             blurRadius: 8,
           ),
-          const BoxShadow(
-            color: Colors.white,
-            offset: Offset(-4, -4),
-            blurRadius: 8,
-          ),
+          // BoxShadow(
+          //   color: Colors.white.withOpacity(0.06),
+          //   offset: Offset(-1, -1),
+          //   blurRadius: 3,
+          // ),
         ],
       ),
       child: TextField(
@@ -338,14 +338,14 @@ class FarmDataDialog {
             ? []
             : [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Colors.black.withOpacity(0.05),
                   offset: const Offset(4, 4),
                   blurRadius: 8,
                 ),
-                const BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-4, -4),
-                  blurRadius: 8,
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.06),
+                  offset: Offset(-1, -1),
+                  blurRadius: 3,
                 ),
               ],
       ),

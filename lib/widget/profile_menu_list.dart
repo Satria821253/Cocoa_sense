@@ -1,6 +1,6 @@
 // lib/widgets/profile_menu_list.dart
 
-import 'package:cocoa_sense/screen/widget/dialogs/logout_dialog.dart';
+import 'package:cocoa_sense/widget/dialogs/logout_dialog.dart';
 import 'package:flutter/material.dart';
 import 'profile_menu_item.dart';
 import 'package:get/get.dart';

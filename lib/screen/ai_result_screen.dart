@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:cocoa_sense/models/detection_result.dart';
 import 'package:cocoa_sense/controllers/detection_history_controller.dart';
-import '../screen/widget/non_cocoa_result_screen.dart';
+import '../widget/non_cocoa_result_screen.dart';
 
 class AIResultScreen extends StatelessWidget {
   const AIResultScreen({super.key});
