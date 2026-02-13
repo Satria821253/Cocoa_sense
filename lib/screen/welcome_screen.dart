@@ -17,7 +17,7 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(flex: 2),
-              
+
               // Rotated Container with Image
               Transform.rotate(
                 angle: -8 * math.pi / 180,
@@ -62,9 +62,9 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 60),
-              
+
               // App Title
               RichText(
                 text: TextSpan(
@@ -85,9 +85,9 @@ class WelcomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 8),
-              
+
               // Subtitle
               Text(
                 'V1.0 PANEN PRESISI',
@@ -98,9 +98,9 @@ class WelcomeScreen extends StatelessWidget {
                   letterSpacing: 1.5,
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // University Info
               Text(
                 'IPB UNIVERSITY • 2026',
@@ -111,14 +111,14 @@ class WelcomeScreen extends StatelessWidget {
                   letterSpacing: 1.2,
                 ),
               ),
-              
+
               const Spacer(flex: 3),
-              
+
               // Start Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Get.offNamed(AppRoutes.main),
+                  onPressed: () => Get.offNamed(AppRoutes.login),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[700],
                     foregroundColor: Colors.white,
@@ -133,7 +133,7 @@ class WelcomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Mulai Aplikasi',
+                        'Masuk',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -141,12 +141,11 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.arrow_forward, size: 20),
                     ],
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 40),
             ],
           ),
